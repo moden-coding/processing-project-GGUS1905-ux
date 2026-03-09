@@ -15,6 +15,7 @@ public class App extends PApplet {
     int playerSpeed = 10;
     int sum = 55;
     boolean left, right;
+    int scene = 1;
 
     public static void main(String[] args) {
         PApplet.main("App");
@@ -32,88 +33,114 @@ public class App extends PApplet {
     }
 
     public void draw() {
-        background(0, 0, 255);
+        if (scene == 1) {
+            background(0, 255, 0);
+            textSize(50);
+            text(" DO NOT TOUCH THE RED BALLS!",100, 100);
+            rect(200, 200, 200, 200);
+            text("START",230 ,200);
 
-        fill(255, 0, 0);
-        circle(ball1X, ball1Y, 40);
+        } else if (scene == 2) {
+            background(0, 0, 255);
 
-        fill(255, 0, 0);
-        circle(ball2x, ball2y, 40);
+            fill(255, 0, 0);
+            circle(ball1X, ball1Y, 40);
 
-        fill(255, 0, 0);
-        circle(ball3x, ball3y, 40);
+            fill(255, 0, 0);
+            circle(ball2x, ball2y, 40);
 
-        fill(255, 0, 0);
-        circle(ball4x, ball4y, 40);
+            fill(255, 0, 0);
+            circle(ball3x, ball3y, 40);
 
-        ball1Y = ball1Y + speed;
+            fill(255, 0, 0);
+            circle(ball4x, ball4y, 40);
 
-        ball2y = ball2y + speed;
+            ball1Y = ball1Y + speed;
 
-        ball3y = ball3y + speed;
+            ball2y = ball2y + speed;
 
-        ball4y = ball4y + speed;
+            ball3y = ball3y + speed;
 
-        fill(0, 255, 0);
-        circle(playerX, playerY, 70);
+            ball4y = ball4y + speed;
 
-        if (ball1Y > height) {
-            ball1Y = 0;
+            fill(0, 255, 0);
+            circle(playerX, playerY, 70);
+
+            if (ball1Y > height) {
+                ball1Y = 0;
+            }
+            if (ball2y > height) {
+                ball2y = 0;
+            }
+            if (ball3y > height) {
+                ball3y = 0;
+            }
+            if (ball4y > height) {
+                ball4y = 0;
+            }
+            if (playerX < 0) {
+                playerX = 0;
+            }
+
+            if (playerX > width) {
+                playerX = width;
+            }
+
+            if (sum >= dist(playerX, playerY, ball1X, ball1Y)) {
+               scene = 3;
+
+            }
+            if (sum >= dist(playerX, playerY, ball2y, ball2y)) {
+               scene = 3;
+
+            }
+            if (sum >= dist(playerX, playerY, ball3x, ball3y)) {
+                scene = 3;
+
+            }
+            if (sum >= dist(playerX, playerY, ball4x, ball4y)) {
+               scene = 3;
+
+            }
+            if (left == true) {
+                playerX -= playerSpeed;
+            }
+            if (right == true) {
+                playerX += playerSpeed;
+            }
+
         }
-        if (ball2y > height) {
-            ball2y = 0;
-        }
-        if (ball3y > height) {
-            ball3y = 0;
-        }
-        if (ball4y > height) {
-            ball4y = 0;
-        }
-        if (playerX < 0) {
-            playerX = 0;
+        else if (scene == 3) {
+            background(255,0,0);
+            text("GAME OVER", 100, 100);
+            rect(200, 200, 200, 200);
+            text("PLAY AGAIN?", 200,200);
         }
 
-        if (playerX > width) {
-            playerX = width;
+    }
+    public void mousePressed(){
+        if (mouseX >= 200 && mouseY >= 200  ) {
+            scene = 2;
         }
-
-        if (sum >= dist(playerX, playerY, ball1X, ball1Y)) {
-            System.out.println("touching");
-
+        if (mouseX >= 200 && mouseY >= 200  ) {
+            scene = 2;
         }
-        if (sum >= dist(playerX, playerY, ball2y, ball2y)) {
-            System.out.println("touching");
-
-        }
-        if (sum >= dist(playerX, playerY, ball3x, ball3y)) {
-            System.out.println("touching");
-
-        }
-        if (sum >= dist(playerX, playerY, ball4x, ball4y)) {
-            System.out.println("touching");
-
-        }
-        if (left == true) {
-            playerX -= playerSpeed;
-        }
-        if (right == true) {
-            playerX += playerSpeed;
-        }
-
     }
 
     public void keyPressed() {
-        if (keyCode == LEFT){
+        System.out.println("pressed");
+        if (keyCode == LEFT) {
             left = true;
         }
 
-        if (keyCode == RIGHT){
+        if (keyCode == RIGHT) {
             right = true;
         }
+        
 
     }
 
-    public void keyReleasd() {
+    public void keyReleased() {
         if (keyCode == LEFT) {
             left = false;
 
