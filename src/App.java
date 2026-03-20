@@ -19,6 +19,7 @@ public class App extends PApplet {
     int count = 0;
     int highScore = 0;
     int lives = 3;
+    int score = 0;
 
     public static void main(String[] args) {
         PApplet.main("App");
@@ -45,6 +46,7 @@ public class App extends PApplet {
 
         else if (scene == 2) {
             background(0, 0, 100);
+            score = count/7;
             badBallSizeColor();
             Score();
             lives();
@@ -99,7 +101,8 @@ public class App extends PApplet {
 
         fill(255, 255, 0); // i used chat here for disigning where should i put the text and in which color
         textSize(30);
-        text("Score: " + count, 20, 40);
+        text("Score: " + score, 20, 40);
+        
     }
 
     public void lives() { // this method is printing how much lives you have left on the screen in scene 2
@@ -117,11 +120,11 @@ public class App extends PApplet {
         text("GAME OVER", 300, 120);
 
         textSize(40);
-        text("Score: " + count, 400, 200);
+        text("Score: " + score, 400, 200);
 
-        if (highScore < count) { // this if stament is checking if count is bigger than the highscore so the
+        if (highScore < score) { // this if stament is checking if count is bigger than the highscore so the
                                  // count becomes the high score
-            highScore = count;
+            highScore = score;
         }
     }
 
@@ -137,7 +140,7 @@ public class App extends PApplet {
     }
 
     public void badBallMovment(PVector ball) {
-        ball1.y = ball1.y + speed;
+        ball.y = ball.y + speed;
 
     }
 
@@ -193,6 +196,7 @@ public class App extends PApplet {
 
     public void reset() { // this method is working once the player gets to scene 3 and she resets all the
                           // variabals
+                          System.out.println("reset");
         ball1.x = 150;
         ball1.y = 0;
         speed = 5;
@@ -214,6 +218,7 @@ public class App extends PApplet {
         sum = 55;
         count = 0;
         lives = 3;
+       
     }
 
     public void goodBallTouchGround() { // this method is saying that if the orange ball touches the ground his y is =
@@ -228,10 +233,13 @@ public class App extends PApplet {
 
     public void ballTouchGround(PVector ball) {
         if (ball.y > height) {
+            System.out.println("ball touch ground");
             ball.y = 0;
             ball.x = (int) random(width);
+            count = count + 1;
             if (random(1) < .15) {
-                count = count + 1;
+                System.out.println("touch");
+                
                 speed = speed + 0.5f;
                 playerSpeed = playerSpeed - 0.1f;
             }
@@ -249,12 +257,13 @@ public class App extends PApplet {
     }
 
     public void checkForDeathTouch(PVector ball){
-         if (sum >= dist(player.x, player.y, ball1.x, ball1.y))  // all of this lines are checking if the bad ball touches the playerr and if it does it taking off live and resets his y to 0 and his x to random
+         if (sum >= dist(player.x, player.y, ball.x, ball.y)) { // all of this lines are checking if the bad ball touches the playerr and if it does it taking off live and resets his y to 0 and his x to random
             lives = lives - 1;
-            ball1.y = 0;
-            ball1.x = (int) random(width);
+            ball.y = 0;
+            ball.x = (int) random(width);
     }
-
+    }
+   
     public void checkForDeathTouch() { // this method is checking when the player dies
 
 
@@ -325,7 +334,7 @@ public class App extends PApplet {
 
     public void badBallSizeColor(PVector ball) {
         fill(255, 0, 0);
-        circle(ball1.x, ball1.y, 40);
+        circle(ball.x, ball.y, 40);
     }
 
     public void badBallSizeColor() { // this method is printing the bad balls at the circle shape in the red color
